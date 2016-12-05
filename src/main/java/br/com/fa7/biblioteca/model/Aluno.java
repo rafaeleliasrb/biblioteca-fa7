@@ -1,7 +1,6 @@
 package br.com.fa7.biblioteca.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
-
-import org.hibernate.Hibernate;
 
 @Entity
 public class Aluno extends BaseModel implements Serializable {
@@ -55,9 +52,6 @@ public class Aluno extends BaseModel implements Serializable {
 		this.livros = livros;
 	}
 	public void adicionarLivros(List<Livro> novosLivros) {
-		/*if(this.livros == null || this.livros.isEmpty()) {
-			this.livros = new HashSet<>();
-		}*/
 		this.livros.addAll(novosLivros);
 	}
 }

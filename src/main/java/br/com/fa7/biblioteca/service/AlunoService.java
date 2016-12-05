@@ -1,18 +1,24 @@
 package br.com.fa7.biblioteca.service;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.hibernate.Hibernate;
 
 import br.com.fa7.biblioteca.dao.AlunoDao;
+import br.com.fa7.biblioteca.dao.LivroDao;
 import br.com.fa7.biblioteca.model.Aluno;
+import br.com.fa7.biblioteca.model.Livro;
 
 @Stateless
 public class AlunoService {
 
 	@Inject
 	private AlunoDao alunoDao;
+	@Inject
+	private LivroDao livroDao;
 	
 	public Aluno selecionarPorMatricula(String matricula) {
 		if(matricula == null || matricula.isEmpty()) {
@@ -33,5 +39,17 @@ public class AlunoService {
 		Aluno aluno = alunoDao.selecionar(id);
 		Hibernate.initialize(aluno.getLivros());
 		return aluno;
+	}
+
+	public void reservarLivros(Aluno aluno, List<Livro> livrosSelecionados) {
+		alunoDao.salvar(aluno);
+		atualizarQuantidadeLivrosDisponiveis(livrosSelecionados);
+	}
+
+	private void atualizarQuantidadeLivrosDisponiveis(List<Livro> livrosSelecionados) {
+		for(Livro livro : livrosSelecionados) {
+			livro.diminurDisponiveis();
+			livroDao.salvar(livro);
+		}
 	}
 }

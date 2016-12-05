@@ -49,4 +49,12 @@ public class Livro extends BaseModel implements Serializable {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+	public void diminurDisponiveis() {
+		if(quantidade > 0) {
+			this.quantidade--;
+		}
+		else {
+			throw new RuntimeException("Livro não pode ser reservado pois não há mais disponíveis");
+		}
+	}
 }

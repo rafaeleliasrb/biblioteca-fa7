@@ -9,8 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.hibernate.Hibernate;
-
 import br.com.fa7.biblioteca.model.Aluno;
 import br.com.fa7.biblioteca.model.Livro;
 import br.com.fa7.biblioteca.service.AlunoService;
@@ -35,11 +33,16 @@ public class ReservarLivroBean implements Serializable{
 	
 	@PostConstruct
 	public void init() {
-		setLivros(livroService.selecionarTodos());
 		context = FacesContext.getCurrentInstance();
 		aluno = (Aluno) context.getExternalContext()
 				.getSessionMap().get("alunoLogado");
 		aluno = alunoService.selecionar(aluno.getId());
+		carregarLivrosParaReserva();
+	}
+
+	private void carregarLivrosParaReserva() {
+		livros = livroService.selecionarTodos();
+		
 	}
 
 	public void adicionarSelecionados() {
@@ -51,7 +54,11 @@ public class ReservarLivroBean implements Serializable{
 	}
 	
 	public void finalizarReserva() {
-		alunoService.salvar(aluno);
+		alunoService.reservarLivros(aluno, livrosSelecionados);
+	}
+	
+	public String solicitarLivro() {
+		return "solicitarLivros?faces-redirect=true";
 	}
 	
 	public List<Livro> getLivros() {

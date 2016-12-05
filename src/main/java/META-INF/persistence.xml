@@ -7,6 +7,7 @@
 		<class>br.com.fa7.biblioteca.model.Livro</class>
 		<class>br.com.fa7.biblioteca.model.Aluno</class>
 		<class>br.com.fa7.biblioteca.model.BaseModel</class>
+		<class>br.com.fa7.biblioteca.model.SolicitacaoLivro</class>
 
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
