@@ -2,7 +2,7 @@ package br.com.fa7.biblioteca.bean;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -10,8 +10,8 @@ import br.com.fa7.biblioteca.model.SolicitacaoLivro;
 import br.com.fa7.biblioteca.service.SolicitacaoLivroService;
 
 @Named
-@SessionScoped
-public class SolicitacaoLivroBean implements Serializable{
+@ViewScoped
+public class SolicitarLivroBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
