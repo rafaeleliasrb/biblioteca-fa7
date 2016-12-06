@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-public class Aluno extends BaseModel implements Serializable {
+@PrimaryKeyJoinColumn(name="id_usuario")
+public class Aluno extends Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
