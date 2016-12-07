@@ -21,4 +21,8 @@ public class LivroService {
 	public List<Livro> selecionarTodos() {
 		return dao.selecionarTodos();
 	}
+
+	public List<Livro> selecionarTodosDisponiveis() {
+		return dao.selecionarTodosDisponiveis();
+	}
 }

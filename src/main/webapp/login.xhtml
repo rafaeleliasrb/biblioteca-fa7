@@ -8,21 +8,21 @@
 
 	<h:head/>
 	<h:body>
-		<p:outputPanel>Login</p:outputPanel>
-		
 		<p:messages globalOnly="true" />
 		
 		<h:form id="login">
 			<p:fieldset legend="Login">
-				<h:panelGrid columns="3">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Login:" for="login" />
+					<p:inputText id="login" value="#{loginBean.usuario.login}" 
+						required="true" requiredMessage="Informe o login"/>
 
-					<p:outputLabel value="Matricula:" for="matricula" />
-					<p:inputText id="matricula" value="#{loginBean.aluno.matricula}" 
-						required="true" requiredMessage="Matricula obrigatória"/>
-
-					<p:commandButton value="Efetue Login" action="#{loginBean.efetuaLogin}" 
-						update="@form" process="@form" />
+					<p:outputLabel value="Senha:" for="senha" />
+					<p:password id="senha" value="#{loginBean.usuario.senha}" 
+						required="true" requiredMessage="Informe a senha"/>
 				</h:panelGrid>
+				<p:commandButton value="Efetue Login" action="#{loginBean.efetuaLogin}" 
+					update="@form" process="@form" />
 			</p:fieldset>
 		</h:form>
 	</h:body>

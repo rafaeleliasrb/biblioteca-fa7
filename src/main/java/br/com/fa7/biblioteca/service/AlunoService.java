@@ -42,14 +42,16 @@ public class AlunoService {
 	}
 
 	public void reservarLivros(Aluno aluno, List<Livro> livrosSelecionados) {
-		alunoDao.salvar(aluno);
 		atualizarQuantidadeLivrosDisponiveis(livrosSelecionados);
+		alunoDao.salvar(aluno);
 	}
 
 	private void atualizarQuantidadeLivrosDisponiveis(List<Livro> livrosSelecionados) {
 		for(Livro livro : livrosSelecionados) {
-			livro.diminurDisponiveis();
-			livroDao.salvar(livro);
+			if(livro.getQuantidade() > 0) {
+				livro.diminurDisponiveis();
+				livroDao.salvar(livro);
+			}
 		}
 	}
 }

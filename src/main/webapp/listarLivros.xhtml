@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">
+			<p:outputPanel>Listar livros</p:outputPanel>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form>
+				<p:dataTable id="livros" value="#{listarLivroBean.livros}" var="livro"
+					paginator="true" rows="10" paginatorPosition="bottom">
+					
+					<p:column headerText="Título">
+						<h:outputText value="#{livro.titulo}"/>
+					</p:column>
+					
+					<p:column headerText="Autor">
+						<h:outputText value="#{livro.autor}"/>
+					</p:column>
+					
+					<p:column headerText="Quantidade">
+						<h:outputText value="#{livro.quantidade}"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

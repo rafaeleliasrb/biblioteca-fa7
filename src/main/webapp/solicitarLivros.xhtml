@@ -6,19 +6,47 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-	<h:head />
-	<h:body>
-		<h:form>
-			<p:panelGrid columns="2" style="margin: 0 auto; display: block;">
-				<h:outputLabel value="Título"/>
-				<p:inputText value="#{solicitarLivroBean.solicitacao.titulo}"/>
-				
-				<h:outputLabel value="Autor"/>
-				<p:inputText value="#{solicitarLivroBean.solicitacao.autor}"/>
-			</p:panelGrid>
-			
-			<p:commandButton value="Solicitar Livro" 
-				action="#{solicitarLivroBean.solicitarLivro}"/>
-		</h:form>
-	</h:body>
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">
+			<p:outputPanel>Solicitar novo livro</p:outputPanel>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<style>
+				.label {
+					float: right;
+				}
+				.inputTexto {
+					float: left;
+					width: 60%;
+				}
+			</style>
+		
+			<h:form>
+				<div class="ui-g" style="text-align: center;">
+				    <div class="ui-g-4">
+				    	<h:outputLabel value="Título: " styleClass="label"/>
+				    </div>
+				    <div class="ui-g-8">
+				    	<p:inputText value="#{solicitarLivroBean.solicitacao.titulo}"
+				    		styleClass="inputTexto"/>
+				    </div>
+				   
+					<div class="ui-g-4">
+						<h:outputLabel value="Autor: " styleClass="label"/>
+					</div>
+					<div class="ui-g-8">
+						<p:inputText value="#{solicitarLivroBean.solicitacao.autor}"
+							styleClass="inputTexto"/>
+					</div>
+
+					<div class="ui-g-12">
+						<p:commandButton value="Solicitar Livro" 
+							action="#{solicitarLivroBean.solicitarLivro}"
+							style="margin-top: 10px;"/>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </html>

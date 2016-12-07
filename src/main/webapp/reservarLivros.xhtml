@@ -6,33 +6,51 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-	<h:head />
-	<h:body>
-		<h:form>
-			<p:dataTable id="livros" value="#{reservarLivroBean.livros}" var="livro"
-				selection="#{reservarLivroBean.livrosSelecionados}" rowKey="#{livro.id}">
-				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">
+			<p:outputPanel>Reservar livro</p:outputPanel>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form>
+				<p:commandButton value="Ver Selecionados"
+					onclick="PF('selecionadosDlg').show();"
+					update="livrosSelecionados"
+					style="float: right; margin-bottom: 10px;"/>
 				
-				<p:column headerText="Título">
-					<h:outputText value="#{livro.titulo}"/>
-				</p:column>
+				<p:dataTable id="livros" value="#{reservarLivroBean.livros}" var="livro"
+					paginator="true" rows="5" paginatorPosition="bottom"
+					style="clear: both;">
+					
+					<p:column headerText="Título">
+						<h:outputText value="#{livro.titulo}"/>
+					</p:column>
+					
+					<p:column headerText="Autor">
+						<h:outputText value="#{livro.autor}"/>
+					</p:column>
+					
+					<p:column>
+						<p:commandButton value="Adicionar"
+							action="#{reservarLivroBean.adicionarLivroParaReserva(livro)}"/>
+					</p:column>
+				</p:dataTable>
 				
-				<p:column headerText="Autor">
-					<h:outputText value="#{livro.autor}"/>
-				</p:column>
-			</p:dataTable>
-			
-			<p:commandButton value="Adicionar selecionado(s)"
-				action="#{reservarLivroBean.adicionarSelecionados}"
-				style="margin: 0px auto; display: block;"/>
+				<p:commandButton value="Finalizar reserva"
+					action="#{reservarLivroBean.finalizarReserva}"
+					update="livros"
+					style="margin: 0px auto; display: block; margin-top: 10px;"/>
 				
-			<p:commandButton value="Finalizar reserva"
-				action="#{reservarLivroBean.finalizarReserva}"
-				style="margin: 0px auto; display: block;"/>
-				
-			<p:commandButton value="Solicitar Novos livros"
-				action="#{reservarLivroBean.solicitarLivro}"
-				style="margin: 0px auto; display: block;"/>
-		</h:form>
-	</h:body>
+				<p:dialog widgetVar="selecionadosDlg" header="Livros selecionados"
+					width="350" height="300">
+					<p:dataList id="livrosSelecionados" 
+						value="#{reservarLivroBean.livrosSelecionados}" var="livro"
+						paginator="true" rows="5" paginatorPosition="bottom"
+						emptyMessage="Nenhum livro selecionado">
+						<h:outputText value="#{livro.titulo}: #{livro.autor}"/>
+					</p:dataList>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </html>
