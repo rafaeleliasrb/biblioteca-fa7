@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">
+			<p:outputPanel>Realizar pedido</p:outputPanel>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form>
+				<p:dataTable id="solicitacoes" 
+					value="#{realizarPedidoBean.solicitacoes}" var="solicitacao"
+					paginator="true" rows="5" paginatorPosition="bottom"
+					style="clear: both;">
+					
+					<p:column headerText="Título">
+						<h:outputText value="#{solicitacao.titulo}"/>
+					</p:column>
+					
+					<p:column headerText="Autor">
+						<h:outputText value="#{solicitacao.autor}"/>
+					</p:column>
+					
+					<p:column headerText="Quantidade">
+						<p:inputText value="#{solicitacao.quantidade}"/>
+					</p:column>
+				</p:dataTable>
+				
+				<p:commandButton value="Submeter pedido"
+					action="#{realizarPedidoBean.submeterPedido}"
+					update="solicitacoes"
+					style="margin: 0px auto; display: block; margin-top: 10px;"/>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

@@ -44,7 +44,7 @@ public class LoginBean implements Serializable {
 			else if(usuario.getAdministrador()) {
 				context.getExternalContext().getSessionMap()
 					.put("usuarioLogado", usuario);
-				return "avaliarSolicitacoes?faces-redirect=true";
+				return "realizarPedido?faces-redirect=true";
 			}
 		}
 
