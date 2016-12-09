@@ -1,5 +1,9 @@
 package br.com.fa7.biblioteca.jms;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -14,24 +18,47 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import br.com.fa7.biblioteca.model.Pedido;
 import br.com.fa7.biblioteca.model.SolicitacaoLivro;
 
+@Singleton
+@Startup
 public class TesteConsumidor {
 
-public static void main(String[] args) throws Exception {
-		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES","*");	
+	static Connection connection;
+	static Session session;
+	static Destination fila;
 	
-		 // Create a ConnectionFactory
-        ActiveMQConnectionFactory connectionFactory 
-        	= new ActiveMQConnectionFactory("tcp://localhost:61616");
-
-        // Create a Connection
-        Connection connection = connectionFactory.createConnection();
-        connection.start();
-
-        // Create a Session
-        Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
-        
-        // Create the destination (Topic or Queue)
-        Destination fila = session.createQueue("distribuidora");
+	static {
+		try {
+			inicializaConexao();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void inicializaConexao() throws JMSException {
+		System.out.println("[INFO] Inicializando conexoes.");
+		
+		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES","*");	
+		
+		// Create a ConnectionFactory
+		ActiveMQConnectionFactory connectionFactory 
+		= new ActiveMQConnectionFactory("tcp://localhost:61616");
+		
+		// Create a Connection
+		connection = connectionFactory.createConnection();
+		connection.start();
+		
+		// Create a Session
+		session = connection.createSession(true, Session.SESSION_TRANSACTED);
+		
+		// Create the destination (Topic or Queue)
+		fila = session.createQueue("biblioteca-queue");
+	}
+	
+	//public static void main(String[] args) throws Exception {
+	@PostConstruct
+	public static void consumidor() throws InterruptedException, JMSException {
+		System.out.println("[INFO] Inicializando consumidor.");
 		
 		MessageConsumer consumer = session.createConsumer(fila);
 		Pedido pedidoRetorno = new Pedido();
@@ -65,6 +92,15 @@ public static void main(String[] args) throws Exception {
 			}
 			
 		});
+		
+		//Thread.sleep(60000*5);
+
+		
+	}
+	
+	@PreDestroy
+	public void finalizaConexoes() throws JMSException {
+		System.out.println("[INFO] finalizando conexoes.");
 		
 		session.close();
 		connection.close();

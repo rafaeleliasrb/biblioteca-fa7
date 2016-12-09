@@ -7,6 +7,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import br.com.fa7.biblioteca.model.Aluno;
+import br.com.fa7.biblioteca.model.Usuario;
 
 public class Autorizador implements PhaseListener {
 
@@ -26,8 +27,10 @@ public class Autorizador implements PhaseListener {
 
 		Aluno alunoLogado = (Aluno) context.getExternalContext()
 				.getSessionMap().get("alunoLogado");
-
-		if (alunoLogado != null) {
+		Usuario usuario = (Usuario) context.getExternalContext()
+				.getSessionMap().get("usuarioLogado");
+		
+		if (alunoLogado != null || usuario != null) {
 			return;
 		}
 

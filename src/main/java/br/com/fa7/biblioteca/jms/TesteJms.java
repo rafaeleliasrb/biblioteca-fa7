@@ -19,9 +19,13 @@ public class TesteJms {
 			SolicitacaoLivro solicitacaoLivro = new SolicitacaoLivro();
 			solicitacaoLivro.setTitulo("Livro " + i);
 			solicitacaoLivro.setAutor("Autor " + i);
-			solicitacaoLivro.setQuantidade(gerador.nextInt(10));
+			int nextInt = gerador.nextInt(10);
+			System.out.println(nextInt);
+			solicitacaoLivro.setQuantidade(nextInt);
 			
-			solicitacoes.add(solicitacaoLivro);
+			if(solicitacaoLivro.getQuantidade() > 0) {
+				solicitacoes.add(solicitacaoLivro);
+			}
 		}
 		 
 		 pedido.setSolicitacoes(solicitacoes);
@@ -31,7 +35,7 @@ public class TesteJms {
 			jmsUtil = new JmsUtil();
 			jmsUtil.enviarMensagem("distribuidora-queue", pedido);
 			
-			Pedido pedidoRetorno  = jmsUtil.receberMensagem("biblioteca-queue");
+			/*Pedido pedidoRetorno  = jmsUtil.receberMensagem("biblioteca-queue");
 			if (pedidoRetorno != null && pedidoRetorno.getSolicitacoes()!=null) {
 				for (SolicitacaoLivro solicitacaoLivro : pedidoRetorno.getSolicitacoes()) {
 					System.out.println(solicitacaoLivro.getAutor());
@@ -39,7 +43,7 @@ public class TesteJms {
 					System.out.println(solicitacaoLivro.getQuantidade());
 
 				}
-			}
+			}*/
 			
 			
 		} catch (Exception e) {
