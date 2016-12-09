@@ -13,12 +13,19 @@
 			
 				<h:form rendered="#{alunoLogado != null}">
 				    <p:menuButton value="Menu">
-				        <p:menuitem value="Listar livros" action="listarLivros?faces-redirect=true"/>
-				        <p:menuitem value="Reservar livro" action="reservarLivros?faces-redirect=true"/>
-				        <p:menuitem value="Solicitar novo livro" action="solicitarLivros?faces-redirect=true"/>
+				        <p:menuitem value="Listar livros" 
+				        	action="listarLivros?faces-redirect=true"/>
+				        <p:menuitem value="Reservar livro" 
+				        	action="reservarLivros?faces-redirect=true"/>
+				        <p:menuitem value="Solicitar novo livro" 
+				        	action="solicitarLivros?faces-redirect=true"/>
 				        <p:separator />
 				        <p:menuitem value="Logout" action="#{loginBean.deslogar}"/>
 				    </p:menuButton>
+				</h:form>
+				
+				<h:form rendered="#{usuarioLogado != null}">
+					<p:commandButton value="Logout" action="#{loginBean.deslogar}"/>
 				</h:form>
 						
 			<h1>
