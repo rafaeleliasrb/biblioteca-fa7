@@ -12,6 +12,7 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import br.com.fa7.biblioteca.model.Pedido;
+import br.com.fa7.biblioteca.model.SolicitacaoLivro;
 
 public class TesteConsumidor {
 
@@ -33,17 +34,25 @@ public static void main(String[] args) throws Exception {
         Destination fila = session.createQueue("distribuidora");
 		
 		MessageConsumer consumer = session.createConsumer(fila);
-		
+		Pedido pedidoRetorno = new Pedido();
 		consumer.setMessageListener(new MessageListener() {
-
+			
+			
 			@Override
 			public void onMessage(Message message) {
 				ObjectMessage objectMessage = (ObjectMessage)message;
 				
 				System.out.println("[INFO] onMessage");
 				try {
-					Pedido pedido = (Pedido) objectMessage.getObject();
-					System.out.println(pedido.hashCode());
+					Pedido pedido = (Pedido) objectMessage.getObject();					
+					pedidoRetorno.setSolicitacoes(pedido.getSolicitacoes());
+					
+					for (SolicitacaoLivro solicitacaoLivro : pedidoRetorno.getSolicitacoes()) {
+						System.out.println(solicitacaoLivro.getAutor());
+						System.out.println(solicitacaoLivro.getTitulo());
+						System.out.println(solicitacaoLivro.getQuantidade());
+						
+					}
 				} catch (JMSException e) {
 					e.printStackTrace();
 				}
