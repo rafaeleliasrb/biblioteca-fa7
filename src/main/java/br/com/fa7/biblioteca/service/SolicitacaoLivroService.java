@@ -27,21 +27,42 @@ public class SolicitacaoLivroService {
 		return solicitacaoLivroDao.salvar(solicitacao);
 	}
 
-	public List<SolicitacaoLivro> selecionarTodos() {
-		return solicitacaoLivroDao.selecionarTodos();
+	public List<SolicitacaoLivro> selecionarTodasCriadas() {
+		return solicitacaoLivroDao.selecionarTodasCriadas();
 	}
 
-	public void realizarPedido(Pedido pedido, List<SolicitacaoLivro> solicitacoes) throws JMSException {
-		pedido = pedidoDao.salvar(pedido);
+	public void realizarPedido(List<SolicitacaoLivro> solicitacoes) throws JMSException {
+		Pedido pedido = criarPedido();
 		
-		solicitacoes = solicitacoesQueEntraramNoPedido(solicitacoes);
-		pedido.setSolicitacoes(solicitacoes);
+		List<SolicitacaoLivro> solicitacoesDoPedido = solicitacoesQueEntraramNoPedido(solicitacoes);
+		adicionarSolicitacoesNoPedido(pedido, solicitacoesDoPedido);
 
 		pedido = pedidoDao.salvar(pedido);
-		//TODO comunicaçao com a fila
+		atualizarStatusSolicitacoes(solicitacoes);
+		
 		distribuidoraJMS.enviarPedido(pedido);
 	}
-
+	
+	private void atualizarStatusSolicitacoes(List<SolicitacaoLivro> solicitacoes) {
+		for(SolicitacaoLivro solicitacaoLivro : solicitacoes) {
+			if(quantidadeLivroMaiorQueZero(solicitacaoLivro.getQuantidade())) {
+				solicitacaoLivro.aceitarSolicitacao();
+			}
+			else {
+				solicitacaoLivro.rejeitarSolicitacao();
+			}
+			salvar(solicitacaoLivro);
+		}
+		
+	}
+	
+	private void adicionarSolicitacoesNoPedido(Pedido pedido, 
+			List<SolicitacaoLivro> solicitacoesDoPedido) {
+		for(SolicitacaoLivro solicitacaoLivro : solicitacoesDoPedido) {
+			pedido.adicionarSolicitacao(solicitacaoLivro);
+		}
+	}
+	
 	private List<SolicitacaoLivro> solicitacoesQueEntraramNoPedido(List<SolicitacaoLivro> solicitacoes) {
 		List<SolicitacaoLivro> solicitacoesDoPedido = new ArrayList<>();
 		for(SolicitacaoLivro solicitacaoLivro : solicitacoes) {
@@ -51,8 +72,14 @@ public class SolicitacaoLivroService {
 		}
 		return solicitacoesDoPedido;
 	}
-
+	
 	private boolean quantidadeLivroMaiorQueZero(Integer quantidade) {
 		return quantidade > 0;
+	}
+
+	private Pedido criarPedido() {
+		Pedido pedido = new Pedido();
+		pedido = pedidoDao.salvar(pedido);
+		return pedido;
 	}
 }

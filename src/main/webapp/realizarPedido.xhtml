@@ -16,6 +16,7 @@
 				<p:dataTable id="solicitacoes" 
 					value="#{realizarPedidoBean.solicitacoes}" var="solicitacao"
 					paginator="true" rows="5" paginatorPosition="bottom"
+					emptyMessage="Nenhum pedido pendente."
 					style="clear: both;">
 					
 					<p:column headerText="Título">
@@ -33,7 +34,7 @@
 				
 				<p:commandButton value="Submeter pedido"
 					action="#{realizarPedidoBean.submeterPedido}"
-					update="solicitacoes"
+					update="@form"
 					style="margin: 0px auto; display: block; margin-top: 10px;"/>
 			</h:form>
 		</ui:define>

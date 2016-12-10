@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.JMSException;
 
-import br.com.fa7.biblioteca.model.Pedido;
 import br.com.fa7.biblioteca.model.SolicitacaoLivro;
 import br.com.fa7.biblioteca.service.SolicitacaoLivroService;
 
@@ -27,17 +26,16 @@ public class RealizarPedidoBean implements Serializable {
 	@Inject
 	private FacesContext context;
 	
-	private Pedido pedido = new Pedido();
 	private List<SolicitacaoLivro> solicitacoes = new ArrayList<SolicitacaoLivro>();
 	
 	@PostConstruct
 	public void init() {
-		solicitacoes = solicitacaoLivroService.selecionarTodos();
+		solicitacoes = solicitacaoLivroService.selecionarTodasCriadas();
 	}
 
 	public void submeterPedido() throws JMSException {
 		if(verificarQuantidadesDasSolicitacoes()) {
-			solicitacaoLivroService.realizarPedido(pedido, solicitacoes);
+			solicitacaoLivroService.realizarPedido(solicitacoes);
 			context.addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Pedido submetido."));
 		}
