@@ -56,6 +56,7 @@ public class LoginBean implements Serializable {
 
 	public String deslogar() {
 		context.getExternalContext().getSessionMap().remove("alunoLogado");
+		context.getExternalContext().getSessionMap().remove("usuarioLogado");
 		return "login?faces-redirect=true";
 	}
 

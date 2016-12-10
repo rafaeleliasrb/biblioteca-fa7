@@ -57,4 +57,9 @@ public class Livro extends BaseModel implements Serializable {
 			throw new RuntimeException("Livro não pode ser reservado pois não há mais disponíveis");
 		}
 	}
+	public void gerarLivroDeSolicitacao(SolicitacaoLivro solicitacaoLivro) {
+		this.titulo = solicitacaoLivro.getTitulo();
+		this.autor = solicitacaoLivro.getAutor();
+		this.quantidade = solicitacaoLivro.getQuantidade();
+	}
 }

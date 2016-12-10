@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.jms.JMSException;
 
 import br.com.fa7.biblioteca.model.Pedido;
 import br.com.fa7.biblioteca.model.SolicitacaoLivro;
@@ -34,7 +35,7 @@ public class RealizarPedidoBean implements Serializable {
 		solicitacoes = solicitacaoLivroService.selecionarTodos();
 	}
 
-	public void submeterPedido() {
+	public void submeterPedido() throws JMSException {
 		if(verificarQuantidadesDasSolicitacoes()) {
 			solicitacaoLivroService.realizarPedido(pedido, solicitacoes);
 			context.addMessage(null, 
