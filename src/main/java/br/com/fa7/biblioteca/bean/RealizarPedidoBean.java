@@ -39,6 +39,7 @@ public class RealizarPedidoBean implements Serializable {
 			context.addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Pedido submetido."));
 		}
+		init();
 	}
 	
 	private Boolean verificarQuantidadesDasSolicitacoes() {
